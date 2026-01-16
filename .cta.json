@@ -1,0 +1,32 @@
+{
+  "projectName": "makyno",
+  "mode": "file-router",
+  "typescript": true,
+  "packageManager": "pnpm",
+  "tailwind": true,
+  "addOnOptions": {
+    "drizzle": {
+      "database": "postgresql"
+    }
+  },
+  "git": true,
+  "version": 1,
+  "framework": "react-cra",
+  "chosenAddOns": [
+    "biome",
+    "nitro",
+    "start",
+    "convex",
+    "compiler",
+    "db",
+    "drizzle",
+    "form",
+    "mcp",
+    "paraglide",
+    "shadcn",
+    "t3env",
+    "table",
+    "better-auth",
+    "tanstack-query"
+  ]
+}
