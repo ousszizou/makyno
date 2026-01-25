@@ -24,9 +24,7 @@ This is a **TanStack Start** fullstack React app with:
 - **Framework**: TanStack Start (React meta-framework with SSR)
 - **Routing**: TanStack Router with file-based routing in `src/routes/`
 - **State/Data**: TanStack Query for server state, TanStack DB for client collections
-- **Databases**:
-  - PostgreSQL via Drizzle ORM (schema at `src/db/schema.ts`, config at `drizzle.config.ts`)
-  - Convex for real-time data (schema at `convex/schema.ts`)
+- **Database**: PostgreSQL via Drizzle ORM (schema at `src/db/schema.ts`, config at `drizzle.config.ts`)
 - **Auth**: Better Auth with email/password (`src/lib/auth.ts`)
 - **i18n**: Paraglide with messages in `messages/{locale}.json` (en, de)
 - **Styling**: Tailwind CSS v4 with shadcn/ui components in `src/components/ui/`
@@ -43,13 +41,12 @@ src/
 ├── features/          # Feature-based modules
 ├── routes/            # File-based routing (TanStack Router)
 │   └── api/           # API routes
-├── integrations/      # Provider setup (Convex, TanStack Query, Better Auth)
+├── integrations/      # Provider setup (TanStack Query, Better Auth)
 ├── db/                # Drizzle schema and database client
 ├── lib/               # Utility libraries
 ├── hooks/             # Custom React hooks
 ├── utils/             # Utility functions
 └── paraglide/         # Generated i18n runtime (auto-generated)
-convex/                # Convex functions and schema
 drizzle/               # Generated migrations
 ```
 
@@ -178,12 +175,6 @@ All technology-specific rules use their respective prefix (e.g., **TS-** for Tan
 - Biome for linting/formatting with tab indentation and double quotes
 - Path alias: `@/*` maps to `src/*`
 - React Compiler enabled via babel plugin
-
-## Convex Guidelines
-
-- Use `v.id("tableName")` for references between tables
-- System fields `_id` and `_creationTime` are automatic
-- Define indexes with `.index("name", ["field"])`
 
 ## Framework Usage Rules
 

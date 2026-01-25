@@ -19,7 +19,6 @@ import { Route as DemoI18nRouteImport } from './routes/demo.i18n'
 import { Route as DemoDrizzleRouteImport } from './routes/demo/drizzle'
 import { Route as DemoDbChatApiRouteImport } from './routes/demo/db-chat-api'
 import { Route as DemoDbChatRouteImport } from './routes/demo/db-chat'
-import { Route as DemoConvexRouteImport } from './routes/demo/convex'
 import { Route as DemoBetterAuthRouteImport } from './routes/demo/better-auth'
 import { Route as DemoStartServerFuncsRouteImport } from './routes/demo/start.server-funcs'
 import { Route as DemoStartApiRequestRouteImport } from './routes/demo/start.api-request'
@@ -82,11 +81,6 @@ const DemoDbChatApiRoute = DemoDbChatApiRouteImport.update({
 const DemoDbChatRoute = DemoDbChatRouteImport.update({
   id: '/demo/db-chat',
   path: '/demo/db-chat',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoConvexRoute = DemoConvexRouteImport.update({
-  id: '/demo/convex',
-  path: '/demo/convex',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DemoBetterAuthRoute = DemoBetterAuthRouteImport.update({
@@ -160,7 +154,6 @@ export interface FileRoutesByFullPath {
   '/mcp': typeof McpRoute
   '/workspace': typeof WorkspaceRoute
   '/demo/better-auth': typeof DemoBetterAuthRoute
-  '/demo/convex': typeof DemoConvexRoute
   '/demo/db-chat': typeof DemoDbChatRoute
   '/demo/db-chat-api': typeof DemoDbChatApiRoute
   '/demo/drizzle': typeof DemoDrizzleRoute
@@ -186,7 +179,6 @@ export interface FileRoutesByTo {
   '/mcp': typeof McpRoute
   '/workspace': typeof WorkspaceRoute
   '/demo/better-auth': typeof DemoBetterAuthRoute
-  '/demo/convex': typeof DemoConvexRoute
   '/demo/db-chat': typeof DemoDbChatRoute
   '/demo/db-chat-api': typeof DemoDbChatApiRoute
   '/demo/drizzle': typeof DemoDrizzleRoute
@@ -213,7 +205,6 @@ export interface FileRoutesById {
   '/mcp': typeof McpRoute
   '/workspace': typeof WorkspaceRoute
   '/demo/better-auth': typeof DemoBetterAuthRoute
-  '/demo/convex': typeof DemoConvexRoute
   '/demo/db-chat': typeof DemoDbChatRoute
   '/demo/db-chat-api': typeof DemoDbChatApiRoute
   '/demo/drizzle': typeof DemoDrizzleRoute
@@ -241,7 +232,6 @@ export interface FileRouteTypes {
     | '/mcp'
     | '/workspace'
     | '/demo/better-auth'
-    | '/demo/convex'
     | '/demo/db-chat'
     | '/demo/db-chat-api'
     | '/demo/drizzle'
@@ -267,7 +257,6 @@ export interface FileRouteTypes {
     | '/mcp'
     | '/workspace'
     | '/demo/better-auth'
-    | '/demo/convex'
     | '/demo/db-chat'
     | '/demo/db-chat-api'
     | '/demo/drizzle'
@@ -293,7 +282,6 @@ export interface FileRouteTypes {
     | '/mcp'
     | '/workspace'
     | '/demo/better-auth'
-    | '/demo/convex'
     | '/demo/db-chat'
     | '/demo/db-chat-api'
     | '/demo/drizzle'
@@ -320,7 +308,6 @@ export interface RootRouteChildren {
   McpRoute: typeof McpRoute
   WorkspaceRoute: typeof WorkspaceRoute
   DemoBetterAuthRoute: typeof DemoBetterAuthRoute
-  DemoConvexRoute: typeof DemoConvexRoute
   DemoDbChatRoute: typeof DemoDbChatRoute
   DemoDbChatApiRoute: typeof DemoDbChatApiRoute
   DemoDrizzleRoute: typeof DemoDrizzleRoute
@@ -412,13 +399,6 @@ declare module '@tanstack/react-router' {
       path: '/demo/db-chat'
       fullPath: '/demo/db-chat'
       preLoaderRoute: typeof DemoDbChatRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/convex': {
-      id: '/demo/convex'
-      path: '/demo/convex'
-      fullPath: '/demo/convex'
-      preLoaderRoute: typeof DemoConvexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/demo/better-auth': {
@@ -520,7 +500,6 @@ const rootRouteChildren: RootRouteChildren = {
   McpRoute: McpRoute,
   WorkspaceRoute: WorkspaceRoute,
   DemoBetterAuthRoute: DemoBetterAuthRoute,
-  DemoConvexRoute: DemoConvexRoute,
   DemoDbChatRoute: DemoDbChatRoute,
   DemoDbChatApiRoute: DemoDbChatApiRoute,
   DemoDrizzleRoute: DemoDrizzleRoute,

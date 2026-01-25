@@ -17,7 +17,6 @@
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
-    "@convex-dev/react-query": "0.1.0",
     "@faker-js/faker": "^10.0.0",
     "@modelcontextprotocol/sdk": "^1.17.0",
     "@radix-ui/react-dialog": "^1.1.15",
@@ -45,7 +44,6 @@
     "better-sqlite3": "^11.7.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "convex": "^1.27.3",
     "drizzle-kit": "^0.31.8",
     "drizzle-orm": "^0.45.0",
     "lucide-react": "^0.561.0",

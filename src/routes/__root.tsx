@@ -9,8 +9,6 @@ import { TanStackDevtools } from '@tanstack/react-devtools'
 
 import Header from '../components/Header'
 
-import ConvexProvider from '../integrations/convex/provider'
-
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 
 import { getLocale, shouldRedirect } from '@/paraglide/runtime'
@@ -63,22 +61,20 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <ConvexProvider>
-          <Header />
-          {children}
-          <TanStackDevtools
-            config={{
-              position: 'bottom-right',
-            }}
-            plugins={[
-              {
-                name: 'Tanstack Router',
-                render: <TanStackRouterDevtoolsPanel />,
-              },
-              TanStackQueryDevtools,
-            ]}
-          />
-        </ConvexProvider>
+        <Header />
+        {children}
+        <TanStackDevtools
+          config={{
+            position: 'bottom-right',
+          }}
+          plugins={[
+            {
+              name: 'Tanstack Router',
+              render: <TanStackRouterDevtoolsPanel />,
+            },
+            TanStackQueryDevtools,
+          ]}
+        />
         <Scripts />
       </body>
     </html>
