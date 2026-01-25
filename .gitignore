@@ -14,4 +14,4 @@ todos.json
 mcp-todos.json
 
 # AI Workspace features
-.makyno/
+.makyno/.worktrees/
