@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WorkspaceRouteImport } from './routes/workspace'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DemoTanstackQueryRouteImport } from './routes/demo/tanstack-query'
@@ -33,6 +34,11 @@ import { Route as DemoStartSsrSpaModeRouteImport } from './routes/demo/start.ssr
 import { Route as DemoStartSsrFullSsrRouteImport } from './routes/demo/start.ssr.full-ssr'
 import { Route as DemoStartSsrDataOnlyRouteImport } from './routes/demo/start.ssr.data-only'
 
+const WorkspaceRoute = WorkspaceRouteImport.update({
+  id: '/workspace',
+  path: '/workspace',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const McpRoute = McpRouteImport.update({
   id: '/mcp',
   path: '/mcp',
@@ -152,6 +158,7 @@ const DemoStartSsrDataOnlyRoute = DemoStartSsrDataOnlyRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/mcp': typeof McpRoute
+  '/workspace': typeof WorkspaceRoute
   '/demo/better-auth': typeof DemoBetterAuthRoute
   '/demo/convex': typeof DemoConvexRoute
   '/demo/db-chat': typeof DemoDbChatRoute
@@ -177,6 +184,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/mcp': typeof McpRoute
+  '/workspace': typeof WorkspaceRoute
   '/demo/better-auth': typeof DemoBetterAuthRoute
   '/demo/convex': typeof DemoConvexRoute
   '/demo/db-chat': typeof DemoDbChatRoute
@@ -203,6 +211,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/mcp': typeof McpRoute
+  '/workspace': typeof WorkspaceRoute
   '/demo/better-auth': typeof DemoBetterAuthRoute
   '/demo/convex': typeof DemoConvexRoute
   '/demo/db-chat': typeof DemoDbChatRoute
@@ -230,6 +239,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/mcp'
+    | '/workspace'
     | '/demo/better-auth'
     | '/demo/convex'
     | '/demo/db-chat'
@@ -255,6 +265,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/mcp'
+    | '/workspace'
     | '/demo/better-auth'
     | '/demo/convex'
     | '/demo/db-chat'
@@ -280,6 +291,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/mcp'
+    | '/workspace'
     | '/demo/better-auth'
     | '/demo/convex'
     | '/demo/db-chat'
@@ -306,6 +318,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   McpRoute: typeof McpRoute
+  WorkspaceRoute: typeof WorkspaceRoute
   DemoBetterAuthRoute: typeof DemoBetterAuthRoute
   DemoConvexRoute: typeof DemoConvexRoute
   DemoDbChatRoute: typeof DemoDbChatRoute
@@ -331,6 +344,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/workspace': {
+      id: '/workspace'
+      path: '/workspace'
+      fullPath: '/workspace'
+      preLoaderRoute: typeof WorkspaceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/mcp': {
       id: '/mcp'
       path: '/mcp'
@@ -498,6 +518,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   McpRoute: McpRoute,
+  WorkspaceRoute: WorkspaceRoute,
   DemoBetterAuthRoute: DemoBetterAuthRoute,
   DemoConvexRoute: DemoConvexRoute,
   DemoDbChatRoute: DemoDbChatRoute,

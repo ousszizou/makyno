@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import {
   Zap,
   Server,
@@ -77,19 +77,25 @@ function App() {
             safety.
           </p>
           <div className="flex flex-col items-center gap-4">
-            <a
-              href="https://tanstack.com/start"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-8 py-3 bg-cyan-500 hover:bg-cyan-600 text-white font-semibold rounded-lg transition-colors shadow-lg shadow-cyan-500/50"
-            >
-              Documentation
-            </a>
+            <div className="flex items-center gap-4">
+              <Link
+                to="/workspace"
+                className="px-8 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-semibold rounded-lg transition-all shadow-lg shadow-cyan-500/50"
+              >
+                Open AI Workspace
+              </Link>
+              <a
+                href="https://tanstack.com/start"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-8 py-3 bg-slate-700 hover:bg-slate-600 text-white font-semibold rounded-lg transition-colors"
+              >
+                Documentation
+              </a>
+            </div>
             <p className="text-gray-400 text-sm mt-2">
-              Begin your TanStack Start journey by editing{' '}
-              <code className="px-2 py-1 bg-slate-700 rounded text-cyan-400">
-                /src/routes/index.tsx
-              </code>
+              Create features in the AI workspace and watch the agent implement
+              them automatically
             </p>
           </div>
         </div>
