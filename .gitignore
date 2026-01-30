@@ -13,8 +13,8 @@ count.txt
 todos.json
 mcp-todos.json
 
-# AI Workspace features
-.makyno/.worktrees/
+# AI Workspace features and dynamic data
+.makyno/
 
 # Worktrees for parallel agent execution
 .worktrees/*/
