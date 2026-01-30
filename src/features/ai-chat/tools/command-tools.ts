@@ -24,8 +24,14 @@ export const runCommandTool = toolDefinition({
 	IMPORTANT: Only run commands if explicitly mentioned in feature requirements.`,
 	inputSchema: z.object({
 		command: z.string().describe("The shell command to execute"),
-		workingDir: z.string().optional().describe("Working directory (default: project root)"),
-		timeout: z.number().optional().describe("Timeout in milliseconds (default: 60000)"),
+		workingDir: z
+			.string()
+			.optional()
+			.describe("Working directory (default: project root)"),
+		timeout: z
+			.number()
+			.optional()
+			.describe("Timeout in milliseconds (default: 60000)"),
 	}),
 	outputSchema: z.object({
 		success: z.boolean(),

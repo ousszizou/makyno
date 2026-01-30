@@ -1,6 +1,11 @@
 import { toolDefinition } from "@tanstack/ai";
 import { z } from "zod";
-import { listFeatures, createFeature, updateFeatureStatus, type FeatureCard } from "@/lib/features";
+import {
+	listFeatures,
+	createFeature,
+	updateFeatureStatus,
+	type FeatureCard,
+} from "@/lib/features";
 
 /**
  * 🔧 Tool 1: List Features
@@ -23,12 +28,19 @@ export const listFeaturesTool = toolDefinition({
 			id: z.string(),
 			title: z.string(),
 			description: z.string(),
-			status: z.enum(["backlog", "todo", "in_progress", "wait_approval", "done", "rejected"]),
+			status: z.enum([
+				"backlog",
+				"todo",
+				"in_progress",
+				"wait_approval",
+				"done",
+				"rejected",
+			]),
 			createdAt: z.string(),
 			startedAt: z.string().optional(),
 			implementedAt: z.string().optional(),
 			completedAt: z.string().optional(),
-		})
+		}),
 	),
 }).server(async () => {
 	// Call the existing server function
@@ -62,8 +74,16 @@ export const createFeatureTool = toolDefinition({
 	The feature will be added to the backlog.
 	Use this when the user wants to add a new feature or task to the workspace.`,
 	inputSchema: z.object({
-		title: z.string().describe("Short, descriptive title for the feature (e.g., 'User Authentication')"),
-		description: z.string().describe("Detailed description of what the feature should do and any requirements"),
+		title: z
+			.string()
+			.describe(
+				"Short, descriptive title for the feature (e.g., 'User Authentication')",
+			),
+		description: z
+			.string()
+			.describe(
+				"Detailed description of what the feature should do and any requirements",
+			),
 	}),
 	outputSchema: z.object({
 		id: z.string(),
@@ -110,8 +130,19 @@ export const updateFeatureStatusTool = toolDefinition({
 
 	Use this when the user wants to change a feature's status.`,
 	inputSchema: z.object({
-		featureId: z.string().describe("The ID of the feature to update (e.g., 'feat-1234567890')"),
-		status: z.enum(["backlog", "todo", "in_progress", "wait_approval", "done", "rejected"]).describe("The new status to set"),
+		featureId: z
+			.string()
+			.describe("The ID of the feature to update (e.g., 'feat-1234567890')"),
+		status: z
+			.enum([
+				"backlog",
+				"todo",
+				"in_progress",
+				"wait_approval",
+				"done",
+				"rejected",
+			])
+			.describe("The new status to set"),
 	}),
 	outputSchema: z.object({
 		id: z.string(),

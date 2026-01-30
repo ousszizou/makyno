@@ -13,7 +13,9 @@ export const readFileTool = toolDefinition({
 	Use this to understand existing code before making changes.
 	Always read files before editing them to understand the current implementation.`,
 	inputSchema: z.object({
-		filePath: z.string().describe("Path to the file to read (relative to project root)"),
+		filePath: z
+			.string()
+			.describe("Path to the file to read (relative to project root)"),
 	}),
 	outputSchema: z.object({
 		content: z.string(),
@@ -42,7 +44,9 @@ export const writeFileTool = toolDefinition({
 	Use this for creating new files or completely replacing file contents.
 	For modifying existing files, use edit_file instead.`,
 	inputSchema: z.object({
-		filePath: z.string().describe("Path to the file to write (relative to project root)"),
+		filePath: z
+			.string()
+			.describe("Path to the file to write (relative to project root)"),
 		content: z.string().describe("The complete content to write to the file"),
 	}),
 	outputSchema: z.object({
@@ -101,12 +105,18 @@ export const editFileTool = toolDefinition({
 
 	// Check if old content exists
 	if (!currentContent.includes(oldContent)) {
-		throw new Error(`Content not found in ${filePath}. Make sure the old_content matches exactly.`);
+		throw new Error(
+			`Content not found in ${filePath}. Make sure the old_content matches exactly.`,
+		);
 	}
 
 	// Replace content
 	const updatedContent = currentContent.replace(oldContent, newContent);
-	const replacements = (currentContent.match(new RegExp(oldContent.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g")) || []).length;
+	const replacements = (
+		currentContent.match(
+			new RegExp(oldContent.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g"),
+		) || []
+	).length;
 
 	// Write back
 	await fs.writeFile(fullPath, updatedContent, "utf-8");
@@ -128,8 +138,13 @@ export const listFilesTool = toolDefinition({
 	description: `Lists files and directories in a given path.
 	Use this to explore the project structure and find relevant files to modify.`,
 	inputSchema: z.object({
-		dirPath: z.string().describe("Directory path to list (relative to project root)"),
-		recursive: z.boolean().optional().describe("Whether to list recursively (default: false)"),
+		dirPath: z
+			.string()
+			.describe("Directory path to list (relative to project root)"),
+		recursive: z
+			.boolean()
+			.optional()
+			.describe("Whether to list recursively (default: false)"),
 	}),
 	outputSchema: z.object({
 		files: z.array(z.string()),
@@ -152,7 +167,8 @@ export const listFilesTool = toolDefinition({
 				const relativePath = path.join(prefix, entry.name);
 
 				// Skip node_modules, .git, etc.
-				if (entry.name.startsWith(".") || entry.name === "node_modules") continue;
+				if (entry.name.startsWith(".") || entry.name === "node_modules")
+					continue;
 
 				if (entry.isDirectory()) {
 					allDirs.push(relativePath);
@@ -176,7 +192,9 @@ export const listFilesTool = toolDefinition({
 		const entries = await fs.readdir(fullPath, { withFileTypes: true });
 
 		const files = entries.filter((e) => e.isFile()).map((e) => e.name);
-		const directories = entries.filter((e) => e.isDirectory()).map((e) => e.name);
+		const directories = entries
+			.filter((e) => e.isDirectory())
+			.map((e) => e.name);
 
 		return {
 			files,
@@ -197,8 +215,14 @@ export const searchCodeTool = toolDefinition({
 	Use this to find where specific code, functions, or patterns are used.`,
 	inputSchema: z.object({
 		pattern: z.string().describe("Text pattern to search for"),
-		filePattern: z.string().optional().describe("Glob pattern for files to search (e.g., '**/*.ts')"),
-		maxResults: z.number().optional().describe("Maximum number of results to return (default: 20)"),
+		filePattern: z
+			.string()
+			.optional()
+			.describe("Glob pattern for files to search (e.g., '**/*.ts')"),
+		maxResults: z
+			.number()
+			.optional()
+			.describe("Maximum number of results to return (default: 20)"),
 	}),
 	outputSchema: z.object({
 		matches: z.array(
@@ -206,48 +230,54 @@ export const searchCodeTool = toolDefinition({
 				file: z.string(),
 				line: z.number(),
 				content: z.string(),
-			})
+			}),
 		),
 		totalMatches: z.number(),
 		searchPattern: z.string(),
 	}),
-}).server(async ({ pattern, filePattern = "**/*.{ts,tsx,js,jsx}", maxResults = 20 }) => {
-	// Use grep to search (simple implementation)
-	// In production, you'd use something like ripgrep or a proper search library
-	const { execSync } = require("node:child_process");
+}).server(
+	async ({
+		pattern,
+		filePattern = "**/*.{ts,tsx,js,jsx}",
+		maxResults = 20,
+	}) => {
+		// Use grep to search (simple implementation)
+		// In production, you'd use something like ripgrep or a proper search library
+		const { execSync } = require("node:child_process");
 
-	try {
-		const grepResult = execSync(
-			`grep -rn "${pattern}" --include="${filePattern}" . | head -n ${maxResults}`,
-			{
-				cwd: process.cwd(),
-				encoding: "utf-8",
-			}
-		);
+		try {
+			const grepResult = execSync(
+				`grep -rn "${pattern}" --include="${filePattern}" . | head -n ${maxResults}`,
+				{
+					cwd: process.cwd(),
+					encoding: "utf-8",
+				},
+			);
 
-		const matches = grepResult
-			.trim()
-			.split("\n")
-			.map((line) => {
-				const [file, lineNum, ...content] = line.split(":");
-				return {
-					file: file.replace("./", ""),
-					line: parseInt(lineNum) || 0,
-					content: content.join(":").trim(),
-				};
-			});
+			const matches = grepResult
+				.trim()
+				.split("\n")
+				.map((line) => {
+					const [file, lineNum, ...content] = line.split(":");
+					return {
+						file: file.replace("./", ""),
+						line: parseInt(lineNum) || 0,
+						content: content.join(":").trim(),
+					};
+				});
 
-		return {
-			matches,
-			totalMatches: matches.length,
-			searchPattern: pattern,
-		};
-	} catch (error) {
-		// No matches found
-		return {
-			matches: [],
-			totalMatches: 0,
-			searchPattern: pattern,
-		};
-	}
-});
+			return {
+				matches,
+				totalMatches: matches.length,
+				searchPattern: pattern,
+			};
+		} catch (error) {
+			// No matches found
+			return {
+				matches: [],
+				totalMatches: 0,
+				searchPattern: pattern,
+			};
+		}
+	},
+);

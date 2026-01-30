@@ -1,7 +1,7 @@
-import { betterAuth } from 'better-auth'
+import { betterAuth } from "better-auth";
 
 export const auth = betterAuth({
-  emailAndPassword: {
-    enabled: true,
-  },
-})
+	emailAndPassword: {
+		enabled: true,
+	},
+});

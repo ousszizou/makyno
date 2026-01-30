@@ -1,9 +1,19 @@
-import { chat, toServerSentEventsResponse, maxIterations } from "@tanstack/ai";
+import { chat, maxIterations, toServerSentEventsResponse } from "@tanstack/ai";
 import { anthropicText } from "@tanstack/ai-anthropic";
 import { createFileRoute } from "@tanstack/react-router";
-import { listFeaturesTool, createFeatureTool, updateFeatureStatusTool } from "@/features/ai-chat/tools/feature-tools";
-import { readFileTool, writeFileTool, editFileTool, listFilesTool, searchCodeTool } from "@/features/ai-chat/tools/file-tools";
 import { runCommandTool } from "@/features/ai-chat/tools/command-tools";
+import {
+	createFeatureTool,
+	listFeaturesTool,
+	updateFeatureStatusTool,
+} from "@/features/ai-chat/tools/feature-tools";
+import {
+	editFileTool,
+	listFilesTool,
+	readFileTool,
+	searchCodeTool,
+	writeFileTool,
+} from "@/features/ai-chat/tools/file-tools";
 
 export const Route = createFileRoute("/api/chat")({
 	server: {

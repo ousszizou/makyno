@@ -1,6 +1,6 @@
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
 	Dialog,
 	DialogContent,
@@ -9,17 +9,17 @@ import {
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
-} from '@/components/ui/dialog'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
-import { DiffViewer } from '@/components/diff-viewer'
-import type { FeatureCard, ActivityLog } from '@/lib/features'
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { DiffViewer } from "@/components/diff-viewer";
+import type { FeatureCard, ActivityLog } from "@/lib/features";
 
 interface KanbanBoardProps {
-	features: FeatureCard[]
-	onCreateFeature: (data: { title: string; description: string }) => void
-	onUpdateStatus: (id: string, status: FeatureCard['status']) => void
+	features: FeatureCard[];
+	onCreateFeature: (data: { title: string; description: string }) => void;
+	onUpdateStatus: (id: string, status: FeatureCard["status"]) => void;
 }
 
 export function KanbanBoard({
@@ -27,25 +27,27 @@ export function KanbanBoard({
 	onCreateFeature,
 	onUpdateStatus,
 }: KanbanBoardProps) {
-	const [isDialogOpen, setIsDialogOpen] = useState(false)
-	const [title, setTitle] = useState('')
-	const [description, setDescription] = useState('')
+	const [isDialogOpen, setIsDialogOpen] = useState(false);
+	const [title, setTitle] = useState("");
+	const [description, setDescription] = useState("");
 
 	const handleCreate = () => {
-		if (!title.trim()) return
+		if (!title.trim()) return;
 
-		onCreateFeature({ title, description })
-		setTitle('')
-		setDescription('')
-		setIsDialogOpen(false)
-	}
+		onCreateFeature({ title, description });
+		setTitle("");
+		setDescription("");
+		setIsDialogOpen(false);
+	};
 
-	const backlogFeatures = features.filter((f) => f.status === 'backlog')
-	const todoFeatures = features.filter((f) => f.status === 'todo')
-	const inProgressFeatures = features.filter((f) => f.status === 'in_progress')
-	const waitApprovalFeatures = features.filter((f) => f.status === 'wait_approval')
-	const doneFeatures = features.filter((f) => f.status === 'done')
-	const rejectedFeatures = features.filter((f) => f.status === 'rejected')
+	const backlogFeatures = features.filter((f) => f.status === "backlog");
+	const todoFeatures = features.filter((f) => f.status === "todo");
+	const inProgressFeatures = features.filter((f) => f.status === "in_progress");
+	const waitApprovalFeatures = features.filter(
+		(f) => f.status === "wait_approval",
+	);
+	const doneFeatures = features.filter((f) => f.status === "done");
+	const rejectedFeatures = features.filter((f) => f.status === "rejected");
 
 	return (
 		<div className="flex flex-col gap-6 p-6">
@@ -104,61 +106,57 @@ export function KanbanBoard({
 				<KanbanColumn
 					title="Backlog"
 					features={backlogFeatures}
-					onMoveNext={(id) => onUpdateStatus(id, 'todo')}
+					onMoveNext={(id) => onUpdateStatus(id, "todo")}
 					nextLabel="Move to Todo"
 				/>
 				<KanbanColumn
 					title="Todo"
 					features={todoFeatures}
-					onMoveNext={(id) => onUpdateStatus(id, 'in_progress')}
-					onMovePrev={(id) => onUpdateStatus(id, 'backlog')}
+					onMoveNext={(id) => onUpdateStatus(id, "in_progress")}
+					onMovePrev={(id) => onUpdateStatus(id, "backlog")}
 					nextLabel="Start"
 					prevLabel="Back"
 				/>
 				<KanbanColumn
 					title="In Progress"
 					features={inProgressFeatures}
-					onMovePrev={(id) => onUpdateStatus(id, 'todo')}
+					onMovePrev={(id) => onUpdateStatus(id, "todo")}
 					prevLabel="Cancel"
 					showProgress
 				/>
 				<KanbanColumn
 					title="Wait Approval"
 					features={waitApprovalFeatures}
-					onMoveNext={(id) => onUpdateStatus(id, 'done')}
-					onMovePrev={(id) => onUpdateStatus(id, 'rejected')}
+					onMoveNext={(id) => onUpdateStatus(id, "done")}
+					onMovePrev={(id) => onUpdateStatus(id, "rejected")}
 					nextLabel="Approve"
 					prevLabel="Reject"
 					showWaitApproval
 				/>
-				<KanbanColumn
-					title="Done"
-					features={doneFeatures}
-					showDone
-				/>
+				<KanbanColumn title="Done" features={doneFeatures} showDone />
 				<KanbanColumn
 					title="Rejected"
 					features={rejectedFeatures}
-					onMoveNext={(id) => onUpdateStatus(id, 'todo')}
+					onMoveNext={(id) => onUpdateStatus(id, "todo")}
 					nextLabel="Retry"
 					showRejected
 				/>
 			</div>
 		</div>
-	)
+	);
 }
 
 interface KanbanColumnProps {
-	title: string
-	features: FeatureCard[]
-	onMoveNext?: (id: string) => void
-	onMovePrev?: (id: string) => void
-	nextLabel?: string
-	prevLabel?: string
-	showProgress?: boolean
-	showWaitApproval?: boolean
-	showDone?: boolean
-	showRejected?: boolean
+	title: string;
+	features: FeatureCard[];
+	onMoveNext?: (id: string) => void;
+	onMovePrev?: (id: string) => void;
+	nextLabel?: string;
+	prevLabel?: string;
+	showProgress?: boolean;
+	showWaitApproval?: boolean;
+	showDone?: boolean;
+	showRejected?: boolean;
 }
 
 function KanbanColumn({
@@ -207,19 +205,19 @@ function KanbanColumn({
 				)}
 			</div>
 		</div>
-	)
+	);
 }
 
 interface FeatureCardComponentProps {
-	feature: FeatureCard
-	onMoveNext?: (id: string) => void
-	onMovePrev?: (id: string) => void
-	nextLabel?: string
-	prevLabel?: string
-	showProgress?: boolean
-	showWaitApproval?: boolean
-	showDone?: boolean
-	showRejected?: boolean
+	feature: FeatureCard;
+	onMoveNext?: (id: string) => void;
+	onMovePrev?: (id: string) => void;
+	nextLabel?: string;
+	prevLabel?: string;
+	showProgress?: boolean;
+	showWaitApproval?: boolean;
+	showDone?: boolean;
+	showRejected?: boolean;
 }
 
 function FeatureCardComponent({
@@ -233,9 +231,9 @@ function FeatureCardComponent({
 	showDone,
 	showRejected,
 }: FeatureCardComponentProps) {
-	const [showLogs, setShowLogs] = useState(false)
-	const [showDiff, setShowDiff] = useState(false)
-	const latestLog = feature.logs?.[feature.logs.length - 1]
+	const [showLogs, setShowLogs] = useState(false);
+	const [showDiff, setShowDiff] = useState(false);
+	const latestLog = feature.logs?.[feature.logs.length - 1];
 
 	return (
 		<>
@@ -246,137 +244,138 @@ function FeatureCardComponent({
 				<CardContent className="flex flex-col gap-3">
 					<p className="text-sm text-muted-foreground">{feature.description}</p>
 
-				{showProgress && latestLog && (
-					<div className="flex flex-col gap-2">
-						<div className="flex items-center gap-2 rounded-md bg-muted p-2">
-							<div className="size-2 animate-pulse rounded-full bg-primary" />
-							<span className="text-xs text-muted-foreground">
-								{latestLog.message}
-							</span>
-						</div>
-						<Button
-							variant="ghost"
-							size="sm"
-							onClick={() => setShowLogs(!showLogs)}
-							className="text-xs"
-						>
-							{showLogs ? 'Hide' : 'Show'} Activity Log ({feature.logs?.length || 0})
-						</Button>
-					</div>
-				)}
-
-				{showWaitApproval && (
-					<div className="flex flex-col gap-2 rounded-md border border-amber-500/20 bg-amber-500/10 p-3">
-						<div className="flex items-center gap-2">
-							<div className="size-2 rounded-full bg-amber-500" />
-							<span className="text-xs font-medium text-amber-700 dark:text-amber-400">
-								Waiting for Approval
-							</span>
-						</div>
-						{feature.metadata && (
-							<div className="text-xs text-muted-foreground">
-								<div>Branch: {feature.metadata.branch}</div>
-								<div>Commits: {feature.metadata.commits}</div>
-								<div>Files: {feature.metadata.filesChanged?.join(', ')}</div>
+					{showProgress && latestLog && (
+						<div className="flex flex-col gap-2">
+							<div className="flex items-center gap-2 rounded-md bg-muted p-2">
+								<div className="size-2 animate-pulse rounded-full bg-primary" />
+								<span className="text-xs text-muted-foreground">
+									{latestLog.message}
+								</span>
 							</div>
-						)}
-						<div className="flex flex-col gap-1">
-							{feature.metadata?.diff && (
-								<Button
-									variant="outline"
-									size="sm"
-									onClick={() => setShowDiff(true)}
-									className="text-xs"
-								>
-									View Git Diff
-								</Button>
-							)}
 							<Button
 								variant="ghost"
 								size="sm"
 								onClick={() => setShowLogs(!showLogs)}
 								className="text-xs"
 							>
-								{showLogs ? 'Hide' : 'View'} Implementation Log
+								{showLogs ? "Hide" : "Show"} Activity Log (
+								{feature.logs?.length || 0})
 							</Button>
 						</div>
-					</div>
-				)}
+					)}
 
-				{showDone && (
-					<div className="rounded-md bg-green-500/10 p-2">
-						<div className="flex items-center gap-2">
-							<div className="text-green-500">✓</div>
-							<span className="text-xs font-medium text-green-700 dark:text-green-400">
-								Approved & Merged
-							</span>
+					{showWaitApproval && (
+						<div className="flex flex-col gap-2 rounded-md border border-amber-500/20 bg-amber-500/10 p-3">
+							<div className="flex items-center gap-2">
+								<div className="size-2 rounded-full bg-amber-500" />
+								<span className="text-xs font-medium text-amber-700 dark:text-amber-400">
+									Waiting for Approval
+								</span>
+							</div>
+							{feature.metadata && (
+								<div className="text-xs text-muted-foreground">
+									<div>Branch: {feature.metadata.branch}</div>
+									<div>Commits: {feature.metadata.commits}</div>
+									<div>Files: {feature.metadata.filesChanged?.join(", ")}</div>
+								</div>
+							)}
+							<div className="flex flex-col gap-1">
+								{feature.metadata?.diff && (
+									<Button
+										variant="outline"
+										size="sm"
+										onClick={() => setShowDiff(true)}
+										className="text-xs"
+									>
+										View Git Diff
+									</Button>
+								)}
+								<Button
+									variant="ghost"
+									size="sm"
+									onClick={() => setShowLogs(!showLogs)}
+									className="text-xs"
+								>
+									{showLogs ? "Hide" : "View"} Implementation Log
+								</Button>
+							</div>
 						</div>
-					</div>
-				)}
+					)}
 
-				{showRejected && (
-					<div className="flex flex-col gap-2 rounded-md border border-red-500/20 bg-red-500/10 p-3">
-						<div className="flex items-center gap-2">
-							<div className="size-2 rounded-full bg-red-500" />
-							<span className="text-xs font-medium text-red-700 dark:text-red-400">
-								Rejected - Needs Revision
-							</span>
+					{showDone && (
+						<div className="rounded-md bg-green-500/10 p-2">
+							<div className="flex items-center gap-2">
+								<div className="text-green-500">✓</div>
+								<span className="text-xs font-medium text-green-700 dark:text-green-400">
+									Approved & Merged
+								</span>
+							</div>
 						</div>
-						{feature.rejectionReason && (
-							<p className="text-xs text-muted-foreground">
-								Reason: {feature.rejectionReason}
-							</p>
+					)}
+
+					{showRejected && (
+						<div className="flex flex-col gap-2 rounded-md border border-red-500/20 bg-red-500/10 p-3">
+							<div className="flex items-center gap-2">
+								<div className="size-2 rounded-full bg-red-500" />
+								<span className="text-xs font-medium text-red-700 dark:text-red-400">
+									Rejected - Needs Revision
+								</span>
+							</div>
+							{feature.rejectionReason && (
+								<p className="text-xs text-muted-foreground">
+									Reason: {feature.rejectionReason}
+								</p>
+							)}
+						</div>
+					)}
+
+					{showLogs && feature.logs && feature.logs.length > 0 && (
+						<div className="max-h-48 overflow-y-auto rounded-md border bg-muted/50 p-2">
+							<div className="flex flex-col gap-1">
+								{feature.logs.map((log, idx) => (
+									<div key={idx} className="flex items-start gap-2 text-xs">
+										<span className="text-muted-foreground">
+											{new Date(log.timestamp).toLocaleTimeString()}
+										</span>
+										<span
+											className={
+												log.type === "error"
+													? "text-red-500"
+													: log.type === "success"
+														? "text-green-500"
+														: "text-foreground"
+											}
+										>
+											{log.message}
+										</span>
+									</div>
+								))}
+							</div>
+						</div>
+					)}
+
+					<div className="flex items-center gap-2">
+						{onMovePrev && prevLabel && (
+							<Button
+								variant="outline"
+								size="sm"
+								onClick={() => onMovePrev(feature.id)}
+							>
+								{prevLabel}
+							</Button>
+						)}
+						{onMoveNext && nextLabel && (
+							<Button size="sm" onClick={() => onMoveNext(feature.id)}>
+								{nextLabel}
+							</Button>
 						)}
 					</div>
-				)}
 
-				{showLogs && feature.logs && feature.logs.length > 0 && (
-					<div className="max-h-48 overflow-y-auto rounded-md border bg-muted/50 p-2">
-						<div className="flex flex-col gap-1">
-							{feature.logs.map((log, idx) => (
-								<div key={idx} className="flex items-start gap-2 text-xs">
-									<span className="text-muted-foreground">
-										{new Date(log.timestamp).toLocaleTimeString()}
-									</span>
-									<span
-										className={
-											log.type === 'error'
-												? 'text-red-500'
-												: log.type === 'success'
-													? 'text-green-500'
-													: 'text-foreground'
-										}
-									>
-										{log.message}
-									</span>
-								</div>
-							))}
-						</div>
+					<div className="text-xs text-muted-foreground">
+						Created: {new Date(feature.createdAt).toLocaleString()}
 					</div>
-				)}
-
-				<div className="flex items-center gap-2">
-					{onMovePrev && prevLabel && (
-						<Button
-							variant="outline"
-							size="sm"
-							onClick={() => onMovePrev(feature.id)}
-						>
-							{prevLabel}
-						</Button>
-					)}
-					{onMoveNext && nextLabel && (
-						<Button size="sm" onClick={() => onMoveNext(feature.id)}>
-							{nextLabel}
-						</Button>
-					)}
-				</div>
-
-				<div className="text-xs text-muted-foreground">
-					Created: {new Date(feature.createdAt).toLocaleString()}
-				</div>
-			</CardContent>
-		</Card>
+				</CardContent>
+			</Card>
 
 			{/* Git Diff Dialog */}
 			<Dialog open={showDiff} onOpenChange={setShowDiff}>
@@ -402,5 +401,5 @@ function FeatureCardComponent({
 				</DialogContent>
 			</Dialog>
 		</>
-	)
+	);
 }
