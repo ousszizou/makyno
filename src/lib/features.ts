@@ -203,14 +203,6 @@ export const updateFeatureStatus = createServerFn({ method: 'POST' })
 		// Write back
 		await fs.writeFile(featurePath, JSON.stringify(feature, null, 2), 'utf-8')
 
-		// If moved to in_progress, trigger mock agent work
-		if (data.status === 'in_progress' && oldStatus !== 'in_progress') {
-			// Fire and forget - don't await
-			mockAgentWork({ data: { featureId: data.id } }).catch((err) =>
-				console.error('Mock agent failed:', err)
-			)
-		}
-
 		return feature
 	})
 
