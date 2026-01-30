@@ -6,6 +6,7 @@ import {
   Shield,
   Waves,
   Sparkles,
+  MessageSquare,
 } from 'lucide-react'
 
 export const Route = createFileRoute('/')({ component: App })
@@ -77,12 +78,19 @@ function App() {
             safety.
           </p>
           <div className="flex flex-col items-center gap-4">
-            <div className="flex items-center gap-4">
+            <div className="flex flex-wrap items-center justify-center gap-4">
               <Link
                 to="/workspace"
                 className="px-8 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-semibold rounded-lg transition-all shadow-lg shadow-cyan-500/50"
               >
                 Open AI Workspace
+              </Link>
+              <Link
+                to="/chat"
+                className="px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold rounded-lg transition-all shadow-lg shadow-purple-500/50 flex items-center gap-2"
+              >
+                <MessageSquare className="w-5 h-5" />
+                AI Chat Assistant
               </Link>
               <a
                 href="https://tanstack.com/start"
@@ -94,8 +102,7 @@ function App() {
               </a>
             </div>
             <p className="text-gray-400 text-sm mt-2">
-              Create features in the AI workspace and watch the agent implement
-              them automatically
+              Create features in the AI workspace or chat with your AI coding assistant
             </p>
           </div>
         </div>
