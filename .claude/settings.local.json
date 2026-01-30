@@ -1,0 +1,6 @@
+{
+  "enabledMcpjsonServers": [
+    "shadcn",
+    "tanstack"
+  ]
+}
