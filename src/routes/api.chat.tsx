@@ -56,15 +56,26 @@ export const Route = createFileRoute("/api/chat")({
 							- search_code: Find code patterns
 							- run_command: Execute shell commands like git, tests, etc. (needs approval)
 
-							**Implementation Workflow:**
+							**Implementation Workflow (with Worktrees for Parallel Execution):**
 							When a user asks you to implement a feature:
 							1. Update feature status to "in_progress"
-							2. Use list_files/search_code to find relevant files
-							3. Use read_file to understand existing code
-							4. Use edit_file/write_file to make REAL changes (not mock stubs!)
-							5. Run tests ONLY if user mentions testing
-							6. Use run_command for git: create branch, commit changes
-							7. Update feature to "wait_approval"
+							2. Create isolated worktree for this feature:
+							   run_command({ command: "git worktree add .worktrees/feat-{featureId} -b feat/{featureName}" })
+							3. Work in the worktree using full paths:
+							   - read_file({ filePath: ".worktrees/feat-{featureId}/src/foo.tsx" })
+							   - edit_file({ filePath: ".worktrees/feat-{featureId}/src/bar.tsx", ... })
+							4. Use list_files/search_code with worktree paths
+							5. Make REAL changes (not mock stubs!)
+							6. Run tests ONLY if user mentions testing
+							7. Commit in worktree: run_command({ command: "git add . && git commit -m '...'", workingDir: ".worktrees/feat-{featureId}" })
+							8. Merge to main:
+							   - git checkout main
+							   - git merge feat/{featureName}
+							   - git worktree remove .worktrees/feat-{featureId}
+							   - git branch -d feat/{featureName}
+							9. Update feature to "wait_approval"
+
+							Note: Using worktrees allows multiple AI agents to work on different features in parallel without conflicts.
 
 							**Example - "Change project title to X":**
 							❌ DON'T create src/features/feat-123.ts with stub code
