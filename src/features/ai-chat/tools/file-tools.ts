@@ -55,7 +55,7 @@ export const writeFileTool = toolDefinition({
 		size: z.number(),
 		message: z.string(),
 	}),
-	needsApproval: false, // TODO: Re-enable after fixing TanStack AI approval flow issue
+	needsApproval: true,
 }).server(async ({ filePath, content }) => {
 	const fullPath = path.join(process.cwd(), filePath);
 
@@ -96,7 +96,7 @@ export const editFileTool = toolDefinition({
 		replacements: z.number(),
 		message: z.string(),
 	}),
-	needsApproval: false, // TODO: Re-enable after fixing TanStack AI approval flow issue
+	needsApproval: true,
 }).server(async ({ filePath, oldContent, newContent }) => {
 	const fullPath = path.join(process.cwd(), filePath);
 

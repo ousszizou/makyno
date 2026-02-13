@@ -41,7 +41,7 @@ export const runCommandTool = toolDefinition({
 		command: z.string(),
 		duration: z.number(),
 	}),
-	needsApproval: false, // TODO: Re-enable after fixing TanStack AI approval flow issue
+	needsApproval: true,
 }).server(async ({ command, workingDir, timeout = 60000 }) => {
 	const startTime = Date.now();
 
